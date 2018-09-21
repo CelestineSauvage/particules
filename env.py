@@ -26,7 +26,11 @@ class Env:
             posX = random.randint(0, self.l-1)
             posY = random.randint(0, self.h-1)
             if (grid[posX][posY] == 0): # si pas de bille sur cette case
-                agent = Agent(canvas, posX, posY, random.randint(-1, 1), random.randint(-1, 1))
+                while(True):
+                    pasX, pasY = (random.randint(-1, 1), random.randint(-1, 1))
+                    if ( (pasX,pasY) != (0,0)):
+                        break
+                agent = Agent(canvas, posX, posY, pasX, pasY)
                 grid[posX][posY] = agent
                 l_agents.append(agent)
                 i += 1
@@ -37,10 +41,15 @@ class Env:
         """
         Retourne ce qu'il y a à la position x,y
         """
-        try :
-            return self.grid[posX][posY]
-        except :
-            print("Erreur d'indice pour retrouver un agent")
+        for i in range (posX, min(self.l-1, posX+9)):
+            for j in range (posY, min(self.h-1, posY+9)):
+                try:
+                    agent = self.grid[i][j]
+                    if (agent != 0):
+                        return agent
+                except:
+                    pass
+        return 0
 
     def unsetAgent(self, posX, posY):
         self.grid[posX][posY] = 0
@@ -49,26 +58,54 @@ class Env:
         """
         Set un agent à la position x, y sur la grille
         """
-        try :
-            if (env.t): # si le monde est tellurique
-                newPosX = (posX+l)%l
-                newPosY = (posY+h)%h
-            else : # sinon
-                newPosX = posX
-                newPosY = posY
+        #newpos
+        newPosX = posX
+        newPosY = posY
 
-                dec = abs(agent.pasX * agent.paxY) # dans quelle direction se déplace la particule ?
-                if (posX < 0): # on replace correctement la boule si besoin
-                    newPosX += 2 - dec
-                if ((l - posX) < 0):
-                    newPosX -= 2 - dec
-                if (posY < 0):
-                    newPosX += 2 - dec
-                if ((l - posY) < 0):
-                    newPosX -= 2 - dec
+        self.unsetAgent(agent.posX, agent.posY) # on enlève la bille
+        dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
+        if (posX < 0): # on replace correctement la boule si besoin
+            newPosX += 2 - dec
+            agent.pasX *= -1
+        if ((self.l - posX) <= 1):
+            newPosX -= 2 - dec
+            agent.pasX *= -1
+        if (posY < 0):
+            newPosY += 2 - dec
+            agent.pasY *= -1
+        if ((self.h - posY) <= 1):
+            newPosY -= 2 - dec
+            agent.pasY *= -1
 
-            self.grid[newPosX][newPosY] = agent
-            agent.posX = newPosX
-            agent.posY = newPosY
-        except :
-            print("Erreur d'indice pour set un agent")
+        maybeAgent = self.getAgent(newPosX, newPosY) # retourne ce qui se trouve à la nouvelle position
+        if (maybeAgent != 0): # si il y a un agent à la nouvelle case, on échange les directions
+            agent.swap_pas(maybeAgent)
+            newPosX = agent.posX + agent.pasX # nouveau posX
+            newPosY = agent.posY + agent.pasY # nouveau posY
+
+        self.grid[newPosX][newPosY] = agent
+        agent.posX = newPosX
+        agent.posY = newPosY
+        # try :
+        #     if (env.t): # si le monde est tellurique
+        #         newPosX = (posX+l)%l
+        #         newPosY = (posY+h)%h
+        #     else : # sinon
+        #         newPosX = posX
+        #         newPosY = posY
+        #
+                # dec = abs(agent.pasX * agent.paxY) # dans quelle direction se déplace la particule ?
+                # if (posX < 0): # on replace correctement la boule si besoin
+                #     newPosX += 2 - dec
+                # if ((l - posX) < 0):
+                #     newPosX -= 2 - dec
+                # if (posY < 0):
+                #     newPosX += 2 - dec
+                # if ((l - posY) < 0):
+                #     newPosX -= 2 - dec
+        #
+        #     self.grid[newPosX][newPosY] = agent
+        #     agent.posX = newPosX
+        #     agent.posY = newPosY
+        # except :
+        #     print("Erreur d'indice pour set un agent")
