@@ -15,13 +15,15 @@ class Agent:
         self.pasY = pasY
 
         self.canvas = canvas
-        self.circle = canvas.create_oval([pasX, pasY, (pasX)+10, (pasY)+10], outline="red", fill="red")
+        self.circle = canvas.create_oval([pasX, pasY, (pasX)+10, (pasY)+10], outline="grey", fill="grey")
 
     def swap_pas(self, agent):
         """
         Swap la direction de 2 agents
         """
-        agent.pasX, agent.pasY = self.pasX, self.pasY
+        agent.pasX, agent.pasY, self.pasX, self.pasY = self.pasX, self.pasY, agent.pasX, agent.pasY
+        self.canvas.itemconfig(self.circle, outline="red", fill="red")
+        agent.canvas.itemconfig(agent.circle, outline="red", fill="red")
 
     def decide(self, env):
         """

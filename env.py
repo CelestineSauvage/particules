@@ -25,7 +25,7 @@ class Env:
             # pour chaque agent, on le place aléatoirement sur la map
             posX = random.randint(0, self.l-1)
             posY = random.randint(0, self.h-1)
-            if (grid[posX][posY] == 0): # si pas de bille sur cette case
+            if (self.getAgent(posX, posY) == 0): # si pas de bille sur cette case
                 while(True):
                     pasX, pasY = (random.randint(-1, 1), random.randint(-1, 1))
                     if ( (pasX,pasY) != (0,0)):
@@ -41,8 +41,8 @@ class Env:
         """
         Retourne ce qu'il y a à la position x,y
         """
-        for i in range (posX, min(self.l-1, posX+9)):
-            for j in range (posY, min(self.h-1, posY+9)):
+        for i in range (max(0, posX-5), min(self.l-1, posX+5)):
+            for j in range (max(0, posY-5), min(self.h-1, posY+5)):
                 try:
                     agent = self.grid[i][j]
                     if (agent != 0):

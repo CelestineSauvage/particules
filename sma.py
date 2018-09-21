@@ -33,14 +33,15 @@ class SMA:
         self.shuffle()
         for agent in (self.l_agents):
             agent.decide(self.env)
-        self.window.after(10, self.turn)
+        self.window.after(self.time, self.turn)
 
     def run(self):
         i = 0
+        self.time = 10
         self.turn()
         self.window.mainloop()
 
 if __name__ == "__main__":
     # execute only if run as a script
-    game = SMA(20, 100, 100, False)
+    game = SMA(40, 100, 100, False)
     game.run()
