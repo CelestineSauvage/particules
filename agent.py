@@ -15,7 +15,7 @@ class Agent:
         self.pasY = pasY
 
         self.canvas = canvas
-        self.circle = canvas.create_oval([pasX, pasY, (pasX)+10, (pasY)+10], outline="grey", fill="grey")
+        self.circle = canvas.create_oval([posX, posY, (posX)+10, (posY)+10], outline="grey", fill="grey")
 
     def swap_pas(self, agent):
         """

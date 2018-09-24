@@ -64,18 +64,26 @@ class Env:
 
         self.unsetAgent(agent.posX, agent.posY) # on enlève la bille
         dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
-        if (posX < 0): # on replace correctement la boule si besoin
-            newPosX += 2 - dec
-            agent.pasX *= -1
-        if ((self.l - posX) <= 1):
-            newPosX -= 2 - dec
-            agent.pasX *= -1
-        if (posY < 0):
-            newPosY += 2 - dec
-            agent.pasY *= -1
-        if ((self.h - posY) <= 1):
-            newPosY -= 2 - dec
-            agent.pasY *= -1
+        if (self.t): # si le monde est torique
+            newPosX = (newPosX+self.l)%self.l
+            newPosY = (newPosY+self.h)%self.h
+            print("l ", self.l)
+            print("h ", self.h)
+            print("newPosX ", newPosX)
+            print("newPosY ", newPosY)
+        else : # sinon
+            if (posX < 0): # on replace correctement la boule si besoin
+                newPosX += 2 - dec
+                agent.pasX *= -1
+            if ((self.l - posX) <= 1):
+                newPosX -= 2 - dec
+                agent.pasX *= -1
+            if (posY < 0):
+                newPosY += 2 - dec
+                agent.pasY *= -1
+            if ((self.h - posY) <= 1):
+                newPosY -= 2 - dec
+                agent.pasY *= -1
 
         maybeAgent = self.getAgent(newPosX, newPosY) # retourne ce qui se trouve à la nouvelle position
         if (maybeAgent != 0): # si il y a un agent à la nouvelle case, on échange les directions
@@ -87,12 +95,7 @@ class Env:
         agent.posX = newPosX
         agent.posY = newPosY
         # try :
-        #     if (env.t): # si le monde est tellurique
-        #         newPosX = (posX+l)%l
-        #         newPosY = (posY+h)%h
-        #     else : # sinon
-        #         newPosX = posX
-        #         newPosY = posY
+
         #
                 # dec = abs(agent.pasX * agent.paxY) # dans quelle direction se déplace la particule ?
                 # if (posX < 0): # on replace correctement la boule si besoin
