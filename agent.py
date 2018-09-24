@@ -5,7 +5,7 @@ Contient les caractéristiques des particules et une méthode decide(), destiné
 """
 class Agent:
 
-    def __init__(self, canvas, posX, posY, pasX, pasY, size):
+    def __init__(self, canvas, posX, posY, pasX, pasY, size, i):
         # position initiale de la particule
         self.posX = posX
         self.posY = posY
@@ -15,6 +15,8 @@ class Agent:
         self.pasY = pasY
 
         self.size = size
+
+        self.id = i
 
         self.canvas = canvas
         self.circle = canvas.create_oval([(posX * self.size), (posY * self.size), (posX * self.size) + self.size, (posY * self.size) + self.size], outline="grey", fill="grey")
@@ -26,6 +28,7 @@ class Agent:
         agent.pasX, agent.pasY, self.pasX, self.pasY = self.pasX, self.pasY, agent.pasX, agent.pasY
         self.canvas.itemconfig(self.circle, outline="red", fill="red")
         agent.canvas.itemconfig(agent.circle, outline="red", fill="red")
+        print("!hit!")
 
     def decide(self, env):
         """
