@@ -1,0 +1,15 @@
+{
+  "torus":"dsqds",
+  "gridSizeX":"100",
+  "gridSizeY":"100",
+  "canvasSizeX":"",
+  "canvasSizeY":"",
+  "boxSize":"8",
+  "delay":"",
+  "scheduling":"2",
+  "speed":"50",
+  "trace":"",
+  "seed":"1",
+  "refresh":"5",
+  "nbParticles":"50"
+}

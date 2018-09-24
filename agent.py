@@ -40,4 +40,4 @@ class Agent:
         self.canvas.coords(self.circle, (self.posX * self.size), (self.posY * self.size), (self.posX * self.size) + self.size, (self.posY * self.size) + self.size)
 
     def describe(self):
-        print("Agent;")
+        print("Agent;"+str(self.posX)+","+str(self.posY))

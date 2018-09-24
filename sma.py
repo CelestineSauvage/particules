@@ -11,7 +11,7 @@ Contient la méthode run() qui effectue le tour de parole
 """
 class SMA:
 
-    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, speed, action):
+    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, speed, action, trace):
         newl = (l)*size
         newh = (h)*size
 
@@ -48,6 +48,8 @@ class SMA:
         # scheduling
         self.action = action
 
+        self.trace = trace
+
         self.order = range(n)
 
         # random
@@ -59,9 +61,9 @@ class SMA:
         Mélange la liste d'ordre
         """
         if (self.action == 2):
-            self.order = random.sample(range(n), k=n)
+            self.order = random.sample(range(self.n), k=self.n)
         if (self.action == 3):
-            self.order = [random.randint(0,n) for _ in range(n)]
+            self.order = [random.randint(0,self.n-1) for _ in range(self.n)]
 
     def turn(self):
         """
@@ -75,10 +77,13 @@ class SMA:
         for i in range(0,self.refresh): # taux de refresh de la page
             for ag in self.order:
                 self.l_agents[ag].decide(self.env)
+                if (self.trace):
+                    self.l_agents[ag].describe()
 
         if (self.delay):
             self.time+= 1
-
+        if (self.trace):
+            print("Turn;"+str(self.nturn))
         self.window.after(self.time, self.turn)
 
     def run(self):
@@ -108,6 +113,7 @@ def main():
     refresh = 1
     delay = False
     speed = 20
+    trace = False
 
     # parcours des options saisis par l'utilisateur
     if (data["torus"]):
@@ -135,7 +141,7 @@ def main():
     if (data["speed"]):
         speed = int(data["speed"])
 
-    game = SMA(n, l, h, t, size, seed, limite, refresh, delay, speed, action)
+    game = SMA(n, l, h, t, size, seed, limite, refresh, delay, speed, action, trace)
     game.run()
 
     # except :
