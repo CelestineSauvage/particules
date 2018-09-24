@@ -20,7 +20,7 @@ class Env:
         Place n agent aléatoirement sur la grille
         """
         i = 0
-        grid = [[0] * (self.h) for _ in range(self.l)] # tableau vide
+        self.grid = [[0] * (self.h) for _ in range(self.l)] # tableau vide
         l_agents = []
         while (i < n) : # on génère les n agents dans le tableau
             # pour chaque agent, on le place aléatoirement sur la map
@@ -32,10 +32,9 @@ class Env:
                     if ( (pasX,pasY) != (0,0)):
                         break
                 agent = Agent(canvas, posX, posY, pasX, pasY, self.size)
-                grid[posX][posY] = agent
+                self.grid[posX][posY] = agent
                 l_agents.append(agent)
                 i += 1
-        self.grid = grid
         return l_agents
 
     def getAgent(self, posX, posY):
@@ -43,15 +42,7 @@ class Env:
         Retourne ce qu'il y a à la position x,y
         """
         return self.grid[posX][posY]
-        # for i in range (max(0, posX-5), min(self.l-1, posX+5)):
-        #     for j in range (max(0, posY-5), min(self.h-1, posY+5)):
-        #         try:
-        #             agent = self.grid[i][j]
-        #             if (agent != 0):
-        #                 return agent
-        #         except:
-        #             pass
-        # return 0
+
 
     def unsetAgent(self, posX, posY):
         self.grid[posX][posY] = 0
@@ -64,23 +55,24 @@ class Env:
         newPosX = posX
         newPosY = posY
 
+
         self.unsetAgent(agent.posX, agent.posY) # on enlève la bille
-        dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
+        #dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
         if (self.t): # si le monde est torique
             newPosX = (newPosX+self.l-1)%self.l
             newPosY = (newPosY+self.h-1)%self.h
         else : # sinon
             if (posX < 0): # on replace correctement la boule si besoin
-                newPosX += (agent.size) - dec
+                newPosX += 2
                 agent.pasX *= -1
             if ((self.l - posX) <= 1):
-                newPosX -= 2 - dec
+                newPosX -= 2
                 agent.pasX *= -1
             if (posY < 0):
-                newPosY += 2 - dec
+                newPosY += 2
                 agent.pasY *= -1
             if ((self.h - posY) <= 1):
-                newPosY -= 2 - dec
+                newPosY -= 2
                 agent.pasY *= -1
 
         maybeAgent = self.getAgent(newPosX, newPosY) # retourne ce qui se trouve à la nouvelle position

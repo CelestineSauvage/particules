@@ -7,10 +7,8 @@ class Agent:
 
     def __init__(self, canvas, posX, posY, pasX, pasY, size):
         # position initiale de la particule
-        self.posX0 = posX
-        self.posY0 = posY
-        self.posX1 = posX+size
-        self.posY1 = posY+size
+        self.posX = posX
+        self.posY = posY
 
         # direction initiale de la particule
         self.pasX = pasX
@@ -19,7 +17,7 @@ class Agent:
         self.size = size
 
         self.canvas = canvas
-        self.circle = canvas.create_oval([posX, posY, self.posX1, self.posY1], outline="grey", fill="grey")
+        self.circle = canvas.create_oval([(posX * self.size), (posY * self.size), (posX * self.size) + self.size, (posY * self.size) + self.size], outline="grey", fill="grey")
 
     def swap_pas(self, agent):
         """
@@ -33,8 +31,8 @@ class Agent:
         """
         Méthode qui permet à un agent de décider de son comportement
         """
-        newPosX = self.posX + (self.pasX*self.size) # nouveau posX
-        newPosY = self.posY + (self.pasY*self.size) # nouveau posY
+        newPosX = self.posX + (self.pasX) # nouveau posX
+        newPosY = self.posY + (self.pasY) # nouveau posY
 
         env.setAgent(self, newPosX, newPosY)
-        self.canvas.coords(self.circle, self.posX, self.posY, self.posX + self.size, self.posY + self.size)
+        self.canvas.coords(self.circle, (self.posX * self.size), (self.posY * self.size), (self.posX * self.size) + self.size, (self.posY * self.size) + self.size)
