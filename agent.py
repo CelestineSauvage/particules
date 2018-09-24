@@ -28,7 +28,6 @@ class Agent:
         agent.pasX, agent.pasY, self.pasX, self.pasY = self.pasX, self.pasY, agent.pasX, agent.pasY
         self.canvas.itemconfig(self.circle, outline="red", fill="red")
         agent.canvas.itemconfig(agent.circle, outline="red", fill="red")
-        print("!hit!")
 
     def decide(self, env):
         """
@@ -39,3 +38,6 @@ class Agent:
 
         env.setAgent(self, newPosX, newPosY)
         self.canvas.coords(self.circle, (self.posX * self.size), (self.posY * self.size), (self.posX * self.size) + self.size, (self.posY * self.size) + self.size)
+
+    def describe(self):
+        print("Agent;")

@@ -8,21 +8,22 @@ Celui-ci peut-être torique ou non
 """
 class Env:
 
-    def __init__(self, n, l, h, t, size):
+    def __init__(self, n, l, h, t, size, seed):
         self.l = l
         self.h = h
         self.grid = []
         self.t = t
         self.size = size
+        self.seed = seed
 
-    def generate(self, canvas, n, rand=None):
+    def generate(self, canvas, n):
         """
         Place n agent aléatoirement sur la grille
         """
         i = 0
         self.grid = [[0] * (self.h) for _ in range(self.l)] # tableau vide
         l_agents = []
-        random.seed(rand) # initialise avec une graine le random
+        random.seed(self.seed) # initialise avec une graine le random
         while (i < n) : # on génère les n agents dans le tableau
             # pour chaque agent, on le place aléatoirement sur la map
             posX = random.randint(0, self.l-1)
@@ -37,7 +38,7 @@ class Env:
                 self.grid[posX][posY] = agent
                 l_agents.append(agent)
                 i += 1
-                print("i"+str(i)+"posX "+str(posX)+"posY "+str(posY)+"pasX "+str(pasX)+"pasY "+str(pasY))
+                #print("i"+str(i)+"posX "+str(posX)+"posY "+str(posY)+"pasX "+str(pasX)+"pasY "+str(pasY))
         return l_agents
 
     def getAgent(self, posX, posY):

@@ -11,7 +11,7 @@ Contient la méthode run() qui effectue le tour de parole
 """
 class SMA:
 
-    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, refresh):
+    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, speed, action):
         newl = (l)*size
         newh = (h)*size
 
@@ -33,30 +33,55 @@ class SMA:
         self.l_agents = (self.env).generate(self.canvas, n) # liste des agents
 
         #nb de tours
-        self.turn = 0
+        self.nturn = 0
         self.limite = limite
 
         #refresh
-        self.refresh
+        self.refresh = refresh
 
-    def shuffle(self):
+        #delay
+        self.delay = delay
+
+        # time
+        self.time = speed
+
+        # scheduling
+        self.action = action
+
+        self.order = range(n)
+
+        # random
+        if (seed != -1):
+            random.seed(seed)
+
+    def scheduling(self):
         """
         Mélange la liste d'ordre
         """
-        random.shuffle(self.l_agents)
+        if (self.action == 2):
+            self.order = random.sample(range(n), k=n)
+        if (self.action == 3):
+            self.order = [random.randint(0,n) for _ in range(n)]
 
     def turn(self):
         """
         Déroulement d'un tour
         """
-        self.shuffle()
-        for agent in (self.l_agents):
-            agent.decide(self.env)
+        if (self.nturn == self.limite): # nb de tours < limite ?
+            exit()
+
+        self.nturn+=1 # on incrémente le nombre de tour
+        self.scheduling() #quelle méthode pour donner la parole ?
+        for i in range(0,self.refresh): # taux de refresh de la page
+            for ag in self.order:
+                self.l_agents[ag].decide(self.env)
+
+        if (self.delay):
+            self.time+= 1
+
         self.window.after(self.time, self.turn)
 
     def run(self):
-        i = 0
-        self.time = 50
         self.turn()
         self.window.mainloop()
 
@@ -78,51 +103,44 @@ def main():
     t = False
     size = 10
     seed = -1
+    action = 2
     limite = -1
     refresh = 1
+    delay = False
+    speed = 20
 
     # parcours des options saisis par l'utilisateur
-    try :
-        if (data["torus"]):
-            t = True
-        if (data["gridSizeX"]):
-            l = int(data["gridSizeX"])
-        if (data["gridSizeY"]):
-            h = int(data["gridSizeY"])
-        if (data["boxSize"]):
-            size = data["boxSize"]
-        if (data["delay"]):
-            delay = True
-        if (data["scheduling"]):
-            data = int(data["scheduling"])
-        if (data["trace"]):
-            data = True
-        if (data["seed"]):
-            seed = int(data["seed"])
-        if (data["refresh"]):
-            refresh = int(data["refresh"])
-        if (data["nbParticles"]):
-            n = int(data["nbParticles"])
+    if (data["torus"]):
+        t = True
+    if (data["gridSizeX"]):
+        l = int(data["gridSizeX"])
+    if (data["gridSizeY"]):
+        print("pour")
+        h = int(data["gridSizeY"])
+    if (data["boxSize"]):
+        print("pour")
+        size = int(data["boxSize"])
+    if (data["delay"]):
+        delay = True
+    if (data["scheduling"]):
+        action = int(data["scheduling"])
+    if (data["trace"]):
+        trace = True
+    if (data["seed"]):
+        seed = int(data["seed"])
+    if (data["refresh"]):
+        refresh = int(data["refresh"])
+    if (data["nbParticles"]):
+        n = int(data["nbParticles"])
+    if (data["speed"]):
+        speed = int(data["speed"])
 
-        game = SMA(n, l, h, t, size, seed, limite, refresh, delay, refresh)
-        game.run()
+    game = SMA(n, l, h, t, size, seed, limite, refresh, delay, speed, action)
+    game.run()
 
-    except :
-        print("Tu chies dans la colle quelque part Célestine")
+    # except :
+    #     print("Tu chies dans la colle quelque part Célestine ")
 
-
-      # "torus":"True",
-      # "gridSizeX":"100",
-      # "gridSizeY":"100",
-      # "canvasSizeX":"100",
-      # "canvasSizeY":"100",
-      # "boxSize":"10",
-      # "delay":"True",
-      # "scheduling":"1",
-      # "trace":"True",
-      # "seed":"0",
-      # "refresh":"1",
-      # "nbParticles":"30"
 
 if __name__ == "__main__":
     # execute only if run as a script
