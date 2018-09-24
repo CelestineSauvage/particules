@@ -8,11 +8,12 @@ Celui-ci peut-être torique ou non
 """
 class Env:
 
-    def __init__(self, n, l, h, t):
+    def __init__(self, n, l, h, t, size):
         self.l = l
         self.h = h
         self.grid = []
         self.t = t
+        self.size = size
 
     def generate(self, canvas, n):
         """
@@ -30,7 +31,7 @@ class Env:
                     pasX, pasY = (random.randint(-1, 1), random.randint(-1, 1))
                     if ( (pasX,pasY) != (0,0)):
                         break
-                agent = Agent(canvas, posX, posY, pasX, pasY)
+                agent = Agent(canvas, posX, posY, pasX, pasY, self.size)
                 grid[posX][posY] = agent
                 l_agents.append(agent)
                 i += 1
@@ -41,15 +42,16 @@ class Env:
         """
         Retourne ce qu'il y a à la position x,y
         """
-        for i in range (max(0, posX-5), min(self.l-1, posX+5)):
-            for j in range (max(0, posY-5), min(self.h-1, posY+5)):
-                try:
-                    agent = self.grid[i][j]
-                    if (agent != 0):
-                        return agent
-                except:
-                    pass
-        return 0
+        return self.grid[posX][posY]
+        # for i in range (max(0, posX-5), min(self.l-1, posX+5)):
+        #     for j in range (max(0, posY-5), min(self.h-1, posY+5)):
+        #         try:
+        #             agent = self.grid[i][j]
+        #             if (agent != 0):
+        #                 return agent
+        #         except:
+        #             pass
+        # return 0
 
     def unsetAgent(self, posX, posY):
         self.grid[posX][posY] = 0
@@ -65,15 +67,11 @@ class Env:
         self.unsetAgent(agent.posX, agent.posY) # on enlève la bille
         dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
         if (self.t): # si le monde est torique
-            newPosX = (newPosX+self.l)%self.l
-            newPosY = (newPosY+self.h)%self.h
-            print("l ", self.l)
-            print("h ", self.h)
-            print("newPosX ", newPosX)
-            print("newPosY ", newPosY)
+            newPosX = (newPosX+self.l-1)%self.l
+            newPosY = (newPosY+self.h-1)%self.h
         else : # sinon
             if (posX < 0): # on replace correctement la boule si besoin
-                newPosX += 2 - dec
+                newPosX += (agent.size) - dec
                 agent.pasX *= -1
             if ((self.l - posX) <= 1):
                 newPosX -= 2 - dec

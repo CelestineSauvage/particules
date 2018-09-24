@@ -9,14 +9,16 @@ Contient la méthode run() qui effectue le tour de parole
 """
 class SMA:
 
-    def __init__(self, n, l, h, t):
+    def __init__(self, n, l, h, t, size):
+        newl = l*size
+        newh = h*size
         self.window = Tk()
-        self.window.geometry(str(l)+"x"+str(h))
+        self.window.geometry(str(newl)+"x"+str(newh))
 
-        self.canvas = Canvas(self.window, height=h, width=l)
+        self.canvas = Canvas(self.window, height=newl, width=newh)
         self.canvas.grid(row=1, column=1, sticky='w')
 
-        self.env = Env(n, l-10, h-10, t) #env
+        self.env = Env(n, newl-size, newh-size, t, size) #env
         self.n = n
         self.l_agents = (self.env).generate(self.canvas, n) # liste des agents
 
@@ -43,5 +45,5 @@ class SMA:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    game = SMA(200, 1000, 1000, False)
+    game = SMA(20, 100, 100, False, 10)
     game.run()
