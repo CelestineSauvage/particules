@@ -43,5 +43,5 @@ class SMA:
 
 if __name__ == "__main__":
     # execute only if run as a script
-    game = SMA(200, 1000, 1000, False)
+    game = SMA(20, 500, 500, False)
     game.run()

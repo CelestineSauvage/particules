@@ -35,4 +35,4 @@ class Agent:
         env.unsetAgent(self.posX, self.posY)
 
         env.setAgent(self, newPosX, newPosY)
-        self.canvas.coords(self.circle, newPosX, newPosY, newPosX + 10, newPosY + 10)
+        self.canvas.coords(self.circle, self.posX, self.posY, self.posX + 10, self.posY + 10)
