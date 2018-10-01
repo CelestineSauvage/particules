@@ -4,13 +4,14 @@
   "gridSizeY":"300",
   "canvasSizeX":"",
   "canvasSizeY":"",
-  "boxSize":"3",
+  "boxSize":"1",
   "delay":"",
   "scheduling":"2",
   "nbTicks":"",
-  "speed":"40",
+  "time":"10",
   "trace":"",
   "seed":"",
   "refresh":"1",
-  "nbParticles":"150"
+  "grid":"",
+  "nbParticles":"1500"
 }

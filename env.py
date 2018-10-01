@@ -16,7 +16,7 @@ class Env:
         self.size = size
         self.seed = seed
 
-    def generate(self, canvas, n):
+    def generate(self, n):
         """
         Place n agent aléatoirement sur la grille
         """
@@ -35,7 +35,7 @@ class Env:
                     if ( (pasX,pasY) != (0,0)):
                         break
 
-                agent = Agent(canvas, posX, posY, pasX, pasY, self.size, i)
+                agent = Agent(posX, posY, pasX, pasY, self.size, i)
                 self.grid[posX][posY] = agent
                 l_agents.append(agent)
                 i += 1
@@ -74,13 +74,13 @@ class Env:
             if (posX < 0): # on replace correctement la boule si besoin
                 newPosX += 2
                 agent.pasX *= -1
-            if ((self.l - posX) <= 1):
+            if ((self.l - posX) < 1):
                 newPosX -= 2
                 agent.pasX *= -1
             if (posY < 0):
                 newPosY += 2
                 agent.pasY *= -1
-            if ((self.h - posY) <= 1):
+            if ((self.h - posY) < 1):
                 newPosY -= 2
                 agent.pasY *= -1
 

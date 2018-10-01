@@ -1,5 +1,6 @@
 #coding: utf-8
 from env import Env
+from view import View
 from tkinter import *
 import random
 import time
@@ -11,17 +12,7 @@ Contient la méthode run() qui effectue le tour de parole
 """
 class SMA:
 
-    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, speed, action, trace):
-        newl = (l)*size
-        newh = (h)*size
-
-        #vue
-        self.window = Tk()
-        self.window.geometry(str(newl)+"x"+str(newh))
-
-        #canvas
-        self.canvas = Canvas(self.window, height=newl, width=newh)
-        self.canvas.grid(row=1, column=1, sticky='w')
+    def __init__(self, n, l, h, t, size, seed, limite, refresh, delay, time, action, trace, grid):
 
         #env
         self.env = Env(n, l, h, t, size, seed)
@@ -30,7 +21,9 @@ class SMA:
         self.n = n
 
         #liste des agents
-        self.l_agents = (self.env).generate(self.canvas, n) # liste des agents
+        self.l_agents = (self.env).generate(n) # liste des agents
+
+        self.view = View(l, h, size, self.l_agents, grid)
 
         #nb de tours
         self.nturn = 0
@@ -43,7 +36,7 @@ class SMA:
         self.delay = delay
 
         # time
-        self.time = speed
+        self.time = time
 
         # scheduling
         self.action = action
@@ -75,6 +68,7 @@ class SMA:
         self.nturn+=1 # on incrémente le nombre de tour
         self.scheduling() #quelle méthode pour donner la parole ?
         for i in range(0,self.refresh): # taux de refresh de la page
+            # TOUR DE TOUS LES AGENTS
             for ag in self.order:
                 self.l_agents[ag].decide(self.env)
                 if (self.trace):
@@ -84,11 +78,12 @@ class SMA:
             self.time+= 1
         if (self.trace):
             print("Turn;"+str(self.nturn))
-        self.window.after(self.time, self.turn)
+        self.view.set_agent(self.time, self.l_agents, self.turn)
+
 
     def run(self):
-        self.turn()
-        self.window.mainloop()
+        self.view.set_agent(self.time, self.l_agents, self.turn)
+        self.view.mainloop()
 
 def parse():
     """
@@ -112,8 +107,9 @@ def main():
     limite = -1
     refresh = 1
     delay = False
-    speed = 20
+    time = 20
     trace = False
+    grid = False
 
     # parcours des options saisis par l'utilisateur
     if (data["torus"]):
@@ -138,10 +134,12 @@ def main():
         refresh = int(data["refresh"])
     if (data["nbParticles"]):
         n = int(data["nbParticles"])
-    if (data["speed"]):
-        speed = int(data["speed"])
+    if (data["time"]):
+        speed = int(data["time"])
+    if (data["grid"]):
+        grid = True
 
-    game = SMA(n, l, h, t, size, seed, limite, refresh, delay, speed, action, trace)
+    game = SMA(n, l, h, t, size, seed, limite, refresh, delay, speed, action, trace, grid)
     game.run()
 
     # except :
