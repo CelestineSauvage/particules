@@ -63,7 +63,7 @@ class Env:
         # print("posX ", posX)
         # print("posY ", posY)
         self.unsetAgent(agent.posX, agent.posY) # on enlève la bille
-        #dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
+        # dec = abs(agent.pasX * agent.pasY) # dans quelle direction se déplace la particule ?
         if (self.t): # si le monde est torique
             newPosX = (newPosX+self.l)%self.l
             newPosY = (newPosY+self.h)%self.h
@@ -83,6 +83,7 @@ class Env:
             if ((self.h - posY) < 1):
                 newPosY -= 2
                 agent.pasY *= -1
+
 
         maybeAgent = self.getAgent(newPosX, newPosY) # retourne ce qui se trouve à la nouvelle position
         if (maybeAgent != 0): # si il y a un agent à la nouvelle case, on échange les directions

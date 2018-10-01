@@ -18,6 +18,8 @@ class Agent:
 
         self.color = "grey"
 
+        self.change = 0
+
         # self.canvas = canvas
         # self.circle = canvas.create_oval([(posX * self.size)+posX, (posY * self.size)+ posY, (posX * self.size) + self.size + posX, (posY * self.size) + self.size + posY], outline="grey", fill="grey")
 
@@ -28,6 +30,8 @@ class Agent:
         agent.pasX, agent.pasY, self.pasX, self.pasY = self.pasX, self.pasY, agent.pasX, agent.pasY
         self.color = "red"
         agent.color = "red"
+
+        self.change = 1
         # self.canvas.itemconfig(self.circle, outline="red", fill="red")
         # agent.canvas.itemconfig(agent.circle, outline="red", fill="red")
 
@@ -35,6 +39,7 @@ class Agent:
         """
         Méthode qui permet à un agent de décider de son comportement
         """
+        self.change = 0
         newPosX = self.posX + (self.pasX) # nouveau posX
         newPosY = self.posY + (self.pasY) # nouveau posY
 
