@@ -1,15 +1,16 @@
 {
-  "torus":"dsqds",
-  "gridSizeX":"100",
-  "gridSizeY":"100",
+  "torus":"",
+  "gridSizeX":"300",
+  "gridSizeY":"300",
   "canvasSizeX":"",
   "canvasSizeY":"",
-  "boxSize":"8",
+  "boxSize":"3",
   "delay":"",
   "scheduling":"2",
-  "speed":"50",
+  "nbTicks":"",
+  "speed":"40",
   "trace":"",
-  "seed":"1",
-  "refresh":"5",
-  "nbParticles":"50"
+  "seed":"",
+  "refresh":"1",
+  "nbParticles":"150"
 }

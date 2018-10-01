@@ -23,7 +23,8 @@ class Env:
         i = 0
         self.grid = [[0] * (self.h) for _ in range(self.l)] # tableau vide
         l_agents = []
-        random.seed(self.seed) # initialise avec une graine le random
+        if (self.seed != -1):
+            random.seed(self.seed) # initialise avec une graine le random
         while (i < n) : # on génère les n agents dans le tableau
             # pour chaque agent, on le place aléatoirement sur la map
             posX = random.randint(0, self.l-1)
@@ -92,6 +93,18 @@ class Env:
             else :
                 newPosX = agent.posX + agent.pasX # nouveau posX
                 newPosY = agent.posY + agent.pasY # nouveau posY
+                if (newPosX < 0): # on replace correctement la boule si besoin
+                    newPosX += 2
+                    agent.pasX *= -1
+                if ((self.l - newPosX) <= 1):
+                    newPosX -= 2
+                    agent.pasX *= -1
+                if (newPosY < 0):
+                    newPosY += 2
+                    agent.pasY *= -1
+                if ((self.h - newPosY) <= 1):
+                    newPosY -= 2
+                    agent.pasY *= -1
 
         try :
             self.grid[newPosX][newPosY] = agent

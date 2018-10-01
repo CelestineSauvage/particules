@@ -121,10 +121,8 @@ def main():
     if (data["gridSizeX"]):
         l = int(data["gridSizeX"])
     if (data["gridSizeY"]):
-        print("pour")
         h = int(data["gridSizeY"])
     if (data["boxSize"]):
-        print("pour")
         size = int(data["boxSize"])
     if (data["delay"]):
         delay = True
@@ -132,6 +130,8 @@ def main():
         action = int(data["scheduling"])
     if (data["trace"]):
         trace = True
+    if (data["nbTicks"]):
+        limite = int(data["nbTicks"])
     if (data["seed"]):
         seed = int(data["seed"])
     if (data["refresh"]):
