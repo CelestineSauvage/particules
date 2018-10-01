@@ -1,0 +1,16 @@
+{
+  "torus":"",
+  "gridSizeX":"300",
+  "gridSizeY":"300",
+  "canvasSizeX":"",
+  "canvasSizeY":"",
+  "boxSize":"3",
+  "delay":"",
+  "scheduling":"2",
+  "nbTicks":"",
+  "speed":"40",
+  "trace":"",
+  "seed":"",
+  "refresh":"1",
+  "nbParticles":"150"
+}
